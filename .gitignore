@@ -13,6 +13,12 @@
 # testing
 /coverage
 
+#ssh keys 
+/eval "$(ssh-agent -s)".pub
+/eval "$(ssh-agent -s)"
+
+
+
 # next.js
 /.next/
 /out/
