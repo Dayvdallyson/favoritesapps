@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,10 +11,21 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useForm, type SubmitHandler } from "react-hook-form";
+
+interface FormInput {
+  email: string;
+  password: string;
+}
+
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const { register, handleSubmit } = useForm<FormInput>();
+
+  const loginOnSubmit: SubmitHandler<FormInput> = (data) => console.log(data);
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -23,12 +36,12 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit(loginOnSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                  id="email"
+                  {...register("email")}
                   type="email"
                   placeholder="m@example.com"
                   required
@@ -44,7 +57,7 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input {...register("password")} type="password" required />
               </div>
               <Button type="submit" className="w-full">
                 Login
@@ -56,7 +69,7 @@ export function LoginForm({
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
               <a href="#" className="underline underline-offset-4">
-                Sign up
+                Sign Up
               </a>
             </div>
           </form>
